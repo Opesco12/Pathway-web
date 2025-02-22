@@ -1,0 +1,15 @@
+export const Colors = {
+  black: "#000000",
+  error: "red",
+  light: "#838383",
+  lightBg: "#fafafa",
+  lightPrimary: "#60C2CF",
+  box: "#ECF9FF",
+  boxBorder: "#73CAEE",
+  secondary: "#87CEEB",
+  lightSecondary: "#73CAEE",
+  primary: "#000050",
+  text: "#003334",
+  white: "#fff",
+  border: "#efefef",
+};
