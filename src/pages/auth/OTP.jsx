@@ -16,12 +16,7 @@ const OTPVerification = () => {
 
   // Prevent manual access
   if (!location.state?.fromLogin) {
-    return (
-      <Navigate
-        to="/login"
-        replace
-      />
-    );
+    return <Navigate to="/login" replace />;
   }
 
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
@@ -39,7 +34,7 @@ const OTPVerification = () => {
     }
 
     if (newOtp.every((digit) => digit !== "")) {
-      handleSubmit(newOtp.join(""));
+      // handleSubmit(newOtp.join(""));
     }
   };
 
@@ -69,9 +64,9 @@ const OTPVerification = () => {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen">
-      <div className="bg-[#f5f5f5] min-w-md">
-        <div className="bg-white border border-gray-200 rounded-xl shadow-sm">
+    <div className="flex h-screen items-center justify-center">
+      <div className="mx-auto min-w-[320px] bg-[#f5f5f5] md:min-w-[500px]">
+        <div className="rounded-xl border border-gray-200 bg-white shadow-sm">
           <div className="p-4 sm:p-7">
             <div className="text-center">
               <h1
@@ -94,12 +89,12 @@ const OTPVerification = () => {
                         <input
                           key={index}
                           ref={(el) => (inputRefs.current[index] = el)}
-                          type="text"
+                          type="number"
                           maxLength={1}
                           value={digit}
                           onChange={(e) => handleChange(index, e.target.value)}
                           onKeyDown={(e) => handleKeyDown(index, e)}
-                          className="w-12 h-12 text-center border rounded-lg text-lg focus:border-blue-500 focus:ring-blue-500"
+                          className="h-12 w-12 rounded-lg border text-center text-lg focus:border-blue-500 focus:ring-blue-500"
                           required
                           style={{ borderColor: Colors.primary }}
                         />
@@ -109,7 +104,7 @@ const OTPVerification = () => {
 
                   <button
                     type="submit"
-                    className="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm text-white font-medium rounded-lg border border-transparent hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
+                    className="inline-flex w-full items-center justify-center gap-x-2 rounded-lg border border-transparent px-4 py-3 text-sm font-medium text-white hover:bg-blue-700 focus:bg-blue-700 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
                     style={{ backgroundColor: Colors.primary }}
                     onClick={(e) => {
                       e.preventDefault();
@@ -125,7 +120,7 @@ const OTPVerification = () => {
               <p className="mt-4 text-center text-sm text-gray-600">
                 Didn't receive the code?
                 <button
-                  className="text-blue-600 font-medium hover:underline"
+                  className="font-medium text-blue-600 hover:underline"
                   style={{ color: Colors.primary }}
                 >
                   Resend OTP

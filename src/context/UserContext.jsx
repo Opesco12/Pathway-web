@@ -1,5 +1,7 @@
 import { createContext, useState, useContext, useEffect } from "react";
 import { useLocation, Navigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import Loader from "../component/ui/LoadingAnimation";
 
@@ -8,6 +10,7 @@ import { authEvents } from "../api/apiClient";
 const UserContext = createContext();
 
 const UserProvider = ({ children }) => {
+  const [userLoading, setUserLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
     return localStorage.getItem("isAuthenticated") === "true";
   });
@@ -17,8 +20,6 @@ const UserProvider = ({ children }) => {
     return savedUser ? JSON.parse(savedUser) : {};
   });
 
-  const [loading, setLoading] = useState(true);
-
   useEffect(() => {
     // Listen for auth errors
     const handleAuthErrorEvent = () => {
@@ -27,7 +28,7 @@ const UserProvider = ({ children }) => {
       localStorage.removeItem("isAuthenticated");
       localStorage.removeItem("user");
       toast.error("Your session has expired. Please login again.");
-      window.location.href = "/login";
+      return (window.location.href = "/login");
     };
 
     authEvents.addEventListener("authError", handleAuthErrorEvent);
@@ -46,7 +47,7 @@ const UserProvider = ({ children }) => {
   }, [user]);
 
   useEffect(() => {
-    setLoading(false);
+    setUserLoading(false);
   }, []);
 
   const logout = () => {
@@ -59,14 +60,14 @@ const UserProvider = ({ children }) => {
   const value = {
     isAuthenticated,
     setIsAuthenticated,
-    loading,
-    setLoading,
+    userLoading,
+    setUserLoading,
     user,
     setUser,
     logout,
   };
 
-  if (loading) {
+  if (userLoading) {
     return (
       <div className="flex h-[100vh] items-center justify-center">
         <Loader />
@@ -74,7 +75,12 @@ const UserProvider = ({ children }) => {
     );
   }
 
-  return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
+  return (
+    <UserContext.Provider value={value}>
+      <ToastContainer autoClose={3000} />
+      {children}
+    </UserContext.Provider>
+  );
 };
 
 export const useAuth = () => {

@@ -32,9 +32,9 @@ const Login = () => {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen">
-      <div className="bg-[#f5f5f5] min-w-md">
-        <div className="bg-white border border-gray-200 rounded-xl shadow-sm">
+    <div className="flex h-screen items-center justify-center px-2">
+      <div className="mx-auto min-w-[320px] bg-[#f5f5f5] md:min-w-[500px]">
+        <div className="rounded-xl border border-gray-200 bg-white shadow-sm">
           <div className="p-4 sm:p-7">
             <div className="text-center">
               <h1
@@ -46,7 +46,7 @@ const Login = () => {
               <p className="mt-2 text-sm text-gray-600">
                 Don't have an account yet?{" "}
                 <a
-                  className="text-blue-600 decoration-2 hover:underline focus:outline-none focus:underline font-medium"
+                  className="font-medium text-blue-600 decoration-2 hover:underline focus:underline focus:outline-none"
                   href="../examples/html/signup.html"
                   style={{ color: Colors.primary }}
                 >
@@ -66,10 +66,7 @@ const Login = () => {
               {({ errors, touched, isSubmitting, handleSubmit }) => (
                 <div className="grid gap-y-4">
                   <div>
-                    <label
-                      htmlFor="email"
-                      className="block text-sm mb-2"
-                    >
+                    <label htmlFor="email" className="mb-2 block text-sm">
                       Email address
                     </label>
                     <div className="relative">
@@ -77,7 +74,7 @@ const Login = () => {
                         id="email"
                         name="email"
                         type="email"
-                        className="py-3 px-4 block w-full border rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+                        className="block w-full rounded-lg border px-4 py-3 text-sm focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50"
                         style={{
                           borderColor:
                             errors.email && touched.email
@@ -86,7 +83,7 @@ const Login = () => {
                         }}
                       />
                       {errors.email && touched.email && (
-                        <p className="text-xs text-red-600 mt-2">
+                        <p className="mt-2 text-xs text-red-600">
                           {errors.email}
                         </p>
                       )}
@@ -94,15 +91,12 @@ const Login = () => {
                   </div>
 
                   <div>
-                    <div className="flex justify-between items-center">
-                      <label
-                        htmlFor="password"
-                        className="block text-sm mb-2"
-                      >
+                    <div className="flex items-center justify-between">
+                      <label htmlFor="password" className="mb-2 block text-sm">
                         Password
                       </label>
                       <a
-                        className="inline-flex items-center gap-x-1 text-sm decoration-2 hover:underline focus:outline-none focus:underline font-medium"
+                        className="inline-flex items-center gap-x-1 text-sm font-medium decoration-2 hover:underline focus:underline focus:outline-none"
                         href="../examples/html/recover-account.html"
                         style={{ color: Colors.primary }}
                       >
@@ -114,7 +108,7 @@ const Login = () => {
                         id="password"
                         name="password"
                         type={showPassword ? "text" : "password"}
-                        className="py-3 px-4 block w-full border rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+                        className="block w-full rounded-lg border px-4 py-3 text-sm focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50"
                         style={{
                           borderColor:
                             errors.password && touched.password
@@ -128,19 +122,13 @@ const Login = () => {
                         className="absolute inset-y-0 right-0 flex items-center pr-3"
                       >
                         {showPassword ? (
-                          <EyeSlash
-                            size={20}
-                            color="#718096"
-                          />
+                          <EyeSlash size={20} color="#718096" />
                         ) : (
-                          <Eye
-                            size={20}
-                            color="#718096"
-                          />
+                          <Eye size={20} color="#718096" />
                         )}
                       </button>
                       {errors.password && touched.password && (
-                        <p className="text-xs text-red-600 mt-2">
+                        <p className="mt-2 text-xs text-red-600">
                           {errors.password}
                         </p>
                       )}
@@ -151,7 +139,7 @@ const Login = () => {
                     onClick={handleSubmit}
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent text-white hover:opacity-90 focus:outline-none disabled:opacity-50 disabled:pointer-events-none"
+                    className="inline-flex w-full items-center justify-center gap-x-2 rounded-lg border border-transparent px-4 py-3 text-sm font-medium text-white hover:opacity-90 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
                     style={{ backgroundColor: Colors.primary }}
                   >
                     {isSubmitting ? "Signing in..." : "Sign in"}

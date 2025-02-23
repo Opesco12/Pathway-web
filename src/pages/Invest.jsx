@@ -31,8 +31,8 @@ const Invest = () => {
         Investments
       </StyledText>
 
-      <div className="flex-1 rounded-xl bg-white p-8">
-        <div className="flex gap-3 border-b border-[#B0B0B0] pb-3">
+      <div className="flex-1 rounded-xl bg-white p-4 md:p-8">
+        <div className="flex flex-col items-center gap-3 border-b border-[#B0B0B0] pb-3 md:flex-row">
           <StyledText
             variant="semibold"
             type="subheading"
