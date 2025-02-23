@@ -4,7 +4,7 @@ import {
   EmptyWallet,
   EyeSlash,
   Flash,
-  Receipt,
+  ProfileCircle,
   ReceiptText,
   Eye,
   StatusUp,
@@ -20,56 +20,57 @@ import { amountFormatter } from "../utils/amountFormatter";
 import { useAuth } from "../context/UserContext";
 import { getFormattedDate } from "../utils/functions/date";
 import { getWalletBalance } from "../api/apiClient";
+import { MoveDownLeft, MoveUpRight } from "lucide-react";
+import AppModal from "../component/ui/AppModal";
+import { useData } from "../context/DataContext";
 
 const Dashboard = () => {
   const [hideBalance, setHideBalance] = useState(false);
-  const [userBalance, setUserBalance] = useState({
-    currencyCode: "",
-    balance: 0,
-  });
+  const [isDepositModalOpen, setIsDepositModalOpen] = useState(false);
+  const [isWithdrawalModalOpen, setIsWithdrawalModalOpen] = useState(false);
+  // const [userBalance, setUserBalance] = useState({
+  //   currencyCode: "",
+  //   balance: 0,
+  // });
   const { user } = useAuth();
+  const { userBalance } = useData();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await getWalletBalance();
-      console.log(response);
-      setUserBalance({
-        currencyCode: response[0]?.currencyCode,
-        balance: response[0]?.amount,
-      });
-    };
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const response = await getWalletBalance();
+  //     console.log(response);
+  //     setUserBalance({
+  //       currencyCode: response[0]?.currencyCode,
+  //       balance: response[0]?.amount,
+  //     });
+  //   };
 
-    fetchData();
-  }, []);
+  //   fetchData();
+  // }, []);
   return (
     <div>
-      <div className="bg-white p-4 flex justify-between items-center rounded-xl">
-        <StyledText
-          type="title"
-          variant="medium"
-        >
-          Hello, {user?.fullName?.split(" ")[0]}
+      <div className="flex items-center justify-between rounded-xl bg-white p-5">
+        <div className="flex items-center gap-2">
+          <ProfileCircle size={30} color={Colors.light} />
+          <StyledText type="title" variant="medium">
+            Hello, {user?.fullName?.split(" ")[0]}
+          </StyledText>
+        </div>
+        <StyledText type="label" color={Colors.light}>
+          {getFormattedDate()}
         </StyledText>
-        <StyledText>{getFormattedDate()}</StyledText>
       </div>
 
       <div
-        className="border rounded-xl py-5 flex flex-col items-center justify-center mt-5 gap-5"
+        className="mt-5 flex flex-col items-center justify-center gap-5 rounded-xl border py-5"
         style={{
           backgroundColor: Colors.box,
           borderColor: Colors.boxBorder,
         }}
       >
         <div className="flex items-center justify-center gap-1">
-          <EmptyWallet
-            size={18}
-            color={Colors.primary}
-            variant="Bold"
-          />
-          <StyledText
-            type="label"
-            color={Colors.primary}
-          >
+          <EmptyWallet size={18} color={Colors.primary} variant="Bold" />
+          <StyledText type="label" color={Colors.primary}>
             Wallet Balance
           </StyledText>
         </div>
@@ -103,23 +104,21 @@ const Dashboard = () => {
 
         <div className="flex items-center justify-center gap-5">
           <div
-            className="flex items-center gap-1 p-6 border border-primary py-2 rounded-full w-[160px] justify-center bg-white"
+            className="border-primary flex w-[160px] items-center justify-center gap-1 rounded-full border bg-white p-6 py-2 hover:border-none hover:bg-[#73CAEE]"
             style={{
               borderColor: "#4D4D4D",
               borderWidth: "0.5px",
             }}
+            onClick={() => setIsDepositModalOpen(true)}
           >
-            <ReceiveSquare2
-              variant="Bold"
-              color={Colors.primary}
-              size={25}
-            />
+            <ReceiveSquare2 variant="Bold" color={Colors.primary} size={25} />
             <StyledText type="label">Deposit</StyledText>
           </div>
 
           <div
-            className="flex items-center gap-1 p-6 border py-2 rounded-full w-[160px] justify-center bg-white"
+            className="flex w-[160px] items-center justify-center gap-1 rounded-full border bg-white p-6 py-2 hover:border-none hover:bg-[#000050] hover:text-white"
             style={{ borderColor: "#4D4D4D", borderWidth: "0.5px" }}
+            onClick={() => setIsWithdrawalModalOpen(true)}
           >
             <TransmitSqaure2
               variant="Bold"
@@ -131,57 +130,37 @@ const Dashboard = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 mt-5 gap-5">
-        <div className="bg-white rounded-xl p-6">
-          <div className="flex gap-2 items-center border-b border-[#B0B0B0] pb-3">
-            <Flash
-              size={25}
-              color={Colors.lightPrimary}
-              variant="Bold"
-            />
+      <div className="mt-5 grid grid-cols-1 gap-5 md:grid-cols-2">
+        <div className="rounded-xl bg-white p-6">
+          <div className="flex items-center gap-2 border-b border-[#B0B0B0] pb-3">
+            <Flash size={25} color={Colors.lightPrimary} variant="Bold" />
             <StyledText color={Colors.primary}>Quick Access</StyledText>
           </div>
 
           <ContentBox>
             <div className="flex items-center justify-between">
               <div>
-                <StyledText
-                  color={Colors.primary}
-                  variant="semibold"
-                >
+                <StyledText color={Colors.primary} variant="semibold">
                   Invest Money
                 </StyledText>
                 <br />
-                <StyledText
-                  color={Colors.primary}
-                  type="label"
-                >
+                <StyledText color={Colors.primary} type="label">
                   Grow your wealth securely
                 </StyledText>
               </div>
 
-              <StatusUp
-                size={55}
-                color={Colors.lightPrimary}
-                variant="Bold"
-              />
+              <StatusUp size={55} color={Colors.lightPrimary} variant="Bold" />
             </div>
           </ContentBox>
 
           <ContentBox>
             <div className="flex items-center justify-between">
               <div>
-                <StyledText
-                  color={Colors.primary}
-                  variant="semibold"
-                >
+                <StyledText color={Colors.primary} variant="semibold">
                   My Portfolio
                 </StyledText>
                 <br />
-                <StyledText
-                  color={Colors.primary}
-                  type="label"
-                >
+                <StyledText color={Colors.primary} type="label">
                   Track your investments at a glance
                 </StyledText>
               </div>
@@ -203,17 +182,11 @@ const Dashboard = () => {
                 className="my-1"
               />
 
-              <StyledText
-                color={Colors.primary}
-                variant="semibold"
-              >
+              <StyledText color={Colors.primary} variant="semibold">
                 Transactions
               </StyledText>
               <br />
-              <StyledText
-                color={Colors.primary}
-                type="label"
-              >
+              <StyledText color={Colors.primary} type="label">
                 Monitor your financial activity
               </StyledText>
             </ContentBox>
@@ -225,34 +198,116 @@ const Dashboard = () => {
                 className="my-1"
               />
 
-              <StyledText
-                color={Colors.primary}
-                variant="semibold"
-              >
+              <StyledText color={Colors.primary} variant="semibold">
                 Help Desk
               </StyledText>
               <br />
-              <StyledText
-                color={Colors.primary}
-                type="label"
-              >
+              <StyledText color={Colors.primary} type="label">
                 Reliable support when you need it
               </StyledText>
             </ContentBox>
           </div>
         </div>
 
-        <div className="bg-white rounded-xl p-6">
-          <div className="flex gap-2 items-center border-b border-[#B0B0B0] pb-3">
-            <ReceiptText
-              size={25}
-              color={Colors.lightPrimary}
-              variant="Bold"
-            />
+        <div className="rounded-xl bg-white p-6">
+          <div className="flex items-center gap-2 border-b border-[#B0B0B0] pb-3">
+            <ReceiptText size={25} color={Colors.lightPrimary} variant="Bold" />
             <StyledText color={Colors.primary}>Recent Transactions</StyledText>
+          </div>
+
+          <div className="flex items-center gap-3 border-b border-[#B0B0B0] py-4">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#FF6347]">
+              <MoveUpRight color="#fff" />
+            </div>
+            <div className="flex flex-1 items-center justify-between">
+              <div>
+                <StyledText variant="semibold" color={Colors.primary}>
+                  Pathway lifestyle plan
+                </StyledText>{" "}
+                <br />
+                <StyledText type="label" color={Colors.light}>
+                  Investment - 22 Feb 2025
+                </StyledText>
+              </div>
+              <StyledText variant="semibold" color={Colors.primary}>
+                {amountFormatter.format(200000)}
+              </StyledText>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3 border-b border-[#B0B0B0] py-4">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#FF6347]">
+              <MoveUpRight color="#fff" />
+            </div>
+            <div className="flex flex-1 items-center justify-between">
+              <div>
+                <StyledText variant="semibold" color={Colors.primary}>
+                  Pathway lifestyle plan
+                </StyledText>{" "}
+                <br />
+                <StyledText type="label" color={Colors.light}>
+                  Investment - 22 Feb 2025
+                </StyledText>
+              </div>
+              <StyledText variant="semibold" color={Colors.primary}>
+                {amountFormatter.format(200000)}
+              </StyledText>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3 border-b border-[#B0B0B0] py-4">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#FF6347]">
+              <MoveUpRight color="#fff" />
+            </div>
+            <div className="flex flex-1 items-center justify-between">
+              <div>
+                <StyledText variant="semibold" color={Colors.primary}>
+                  Pathway lifestyle plan
+                </StyledText>{" "}
+                <br />
+                <StyledText type="label" color={Colors.light}>
+                  Investment - 22 Feb 2025
+                </StyledText>
+              </div>
+              <StyledText variant="semibold" color={Colors.primary}>
+                {amountFormatter.format(200000)}
+              </StyledText>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3 py-4">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#64CF69]">
+              <MoveDownLeft color="#fff" />
+            </div>
+            <div className="flex flex-1 items-center justify-between">
+              <div>
+                <StyledText variant="semibold" color={Colors.primary}>
+                  Pathway lifestyle plan
+                </StyledText>{" "}
+                <br />
+                <StyledText type="label" color={Colors.light}>
+                  Investment - 22 Feb 2025
+                </StyledText>
+              </div>
+              <StyledText variant="semibold" color={Colors.primary}>
+                {amountFormatter.format(200000)}
+              </StyledText>
+            </div>
           </div>
         </div>
       </div>
+
+      <AppModal
+        title={"Deposit"}
+        isOpen={isDepositModalOpen}
+        onClose={() => setIsDepositModalOpen(false)}
+      />
+
+      <AppModal
+        title={"Withdrawal"}
+        isOpen={isWithdrawalModalOpen}
+        onClose={() => setIsWithdrawalModalOpen(false)}
+      />
     </div>
   );
 };
@@ -260,5 +315,5 @@ const Dashboard = () => {
 export default Dashboard;
 
 const ContentBox = ({ children }) => {
-  return <div className="p-4 rounded-xl bg-[#ECF9FF] my-3">{children}</div>;
+  return <div className="my-3 rounded-xl bg-[#ECF9FF] p-4">{children}</div>;
 };

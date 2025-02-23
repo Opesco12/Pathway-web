@@ -14,6 +14,14 @@ const getAuthToken = async () => {
   return data?.token;
 };
 
+export const authEvents = new EventTarget();
+
+const handleAuthError = () => {
+  // Dispatch a custom event when auth error occurs
+  const event = new Event("authError");
+  authEvents.dispatchEvent(event);
+};
+
 const axiosInstance = axios.create({
   baseURL: BASE_URL,
   timeout: 30000,
@@ -59,10 +67,8 @@ const apiCall = async ({
     return response.data;
   } catch (error) {
     console.error("API call error:", error);
-    console.log(typeof error.status);
-    if (error.status === 401) {
-      console.log("Your session expired. Pleas login again.");
-      window.location.href = "/login";
+    if (error.response?.status === 401) {
+      handleAuthError();
       return;
     }
     throw error;
@@ -195,7 +201,7 @@ export const activateAccount = async (info) => {
     console.log(error);
     if (error.status === 400) {
       toast.error(
-        "Invalid security passcode or security login passcode has expired"
+        "Invalid security passcode or security login passcode has expired",
       );
     } else {
       toast.error("Please try again later");
@@ -334,7 +340,9 @@ export const getClientPortfolio = async () => {
       method: "GET",
     });
     return data;
-  } catch (error) {}
+  } catch (error) {
+    toast.error("An error occured");
+  }
 };
 
 export const getMutualFundOnlineBalances = async () => {
