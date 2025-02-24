@@ -33,16 +33,18 @@ import Activation from "./pages/auth/Activation";
 function App() {
   const Layout = () => {
     return (
-      <ProtectedRoute>
-        <div className="flex h-[100vh] overflow-hidden">
-          <ResponsiveSidebar />
-          <main className="flex-1 overflow-y-auto bg-[#f5f5f5]">
-            <div className="mx-auto min-h-full max-w-[1024px] px-4 py-15 md:px-8 lg:px-12">
-              <Outlet />
-            </div>
-          </main>
-        </div>
-      </ProtectedRoute>
+      <DataProvider>
+        <ProtectedRoute>
+          <div className="flex h-[100vh] overflow-hidden">
+            <ResponsiveSidebar />
+            <main className="flex-1 overflow-y-auto bg-[#f5f5f5]">
+              <div className="mx-auto min-h-full max-w-[1024px] px-4 py-15 md:px-8 lg:px-12">
+                <Outlet />
+              </div>
+            </main>
+          </div>
+        </ProtectedRoute>
+      </DataProvider>
     );
   };
 
@@ -50,41 +52,36 @@ function App() {
     <>
       <Router>
         <UserProvider>
-          <DataProvider>
-            <Routes>
-              <Route path="/" element={<Layout />}>
-                <Route index element={<Dashboard />} />
-                <Route path="dashboard" element={<Dashboard />} />
-                <Route path="invest" element={<Invest />} />
-                <Route path="portfolio" element={<Portfolio />} />
-                <Route
-                  path="invest/:portfolioId"
-                  element={<ProductDetails />}
-                />
-                <Route
-                  path="/portfolio/:portfolioId"
-                  element={<PortfolioDetails />}
-                />
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route index element={<Dashboard />} />
+              <Route path="dashboard" element={<Dashboard />} />
+              <Route path="invest" element={<Invest />} />
+              <Route path="portfolio" element={<Portfolio />} />
+              <Route path="invest/:portfolioId" element={<ProductDetails />} />
+              <Route
+                path="/portfolio/:portfolioId"
+                element={<PortfolioDetails />}
+              />
 
-                <Route
-                  path="/portfolio/:portfolioId/redeem"
-                  element={<FixedIncomeWithdrawal />}
-                />
-                <Route path="/transactions" element={<Transactions />} />
-                <Route
-                  path="/transaction/details"
-                  element={<TransactionDetails />}
-                />
-                <Route path="profile" element={<Profile />} />
-              </Route>
-              <Route path="*" element={<p>Page not found</p>} />
+              <Route
+                path="/portfolio/:portfolioId/redeem"
+                element={<FixedIncomeWithdrawal />}
+              />
+              <Route path="/transactions" element={<Transactions />} />
+              <Route
+                path="/transaction/details"
+                element={<TransactionDetails />}
+              />
+              <Route path="profile" element={<Profile />} />
+            </Route>
+            <Route path="*" element={<p>Page not found</p>} />
 
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/register/activate" element={<Activation />} />
-              <Route path="/login/2fa" element={<OTPVerification />} />
-            </Routes>
-          </DataProvider>
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/register/activate" element={<Activation />} />
+            <Route path="/login/2fa" element={<OTPVerification />} />
+          </Routes>
         </UserProvider>
       </Router>
     </>
