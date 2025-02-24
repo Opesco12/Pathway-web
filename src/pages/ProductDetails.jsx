@@ -1,7 +1,7 @@
 import { Moneys, PercentageCircle, Judge, Calendar2 } from "iconsax-react";
 import { Formik, Field } from "formik";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 
 import StyledText from "../component/ui/StyledText";
@@ -21,6 +21,7 @@ import { toast } from "react-toastify";
 
 const ProductDetails = () => {
   const { portfolioId } = useParams();
+  const navigate = useNavigate();
   const [investmentBalance, setInvestmentBalance] = useState(0);
   const [isLiabilityProduct, setIsLiabilityProduct] = useState(false);
   const [liabilityProducts, setLiabilityProducts] = useState([]);
@@ -34,6 +35,10 @@ const ProductDetails = () => {
   const product = products?.find(
     (item) => item.portfolioId === Number(portfolioId),
   );
+
+  if (!product) {
+    navigate("/404");
+  }
 
   const fetchData = async () => {
     try {
@@ -185,8 +190,8 @@ const ProductDetails = () => {
 
       <div className="flex-1 rounded-xl bg-white p-5 md:p-3 lg:p-5">
         <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-          <div className="min-h-[200px] rounded-lg bg-[#ECF9FF] p-3 md:p-6">
-            <div className="flex h-[200px] w-full flex-col items-center justify-center gap-5 rounded-lg bg-white p-3 md:p-5">
+          <div className="min-h-[200px] rounded-lg border border-[#73CAEE] bg-[#ECF9FF] p-3 md:p-6">
+            <div className="flex h-[200px] w-full flex-col items-center justify-center gap-5 rounded-lg border border-[#73CAEE] bg-white p-3 md:p-5">
               <div className="flex items-center justify-center gap-1">
                 <Moneys size={18} color={Colors.primary} variant="Bold" />
                 <StyledText type="label">Investment Balance</StyledText>

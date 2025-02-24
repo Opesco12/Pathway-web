@@ -1,19 +1,19 @@
 import { useState, useEffect } from "react";
 import { ChartSquare, ArrowCircleRight2 } from "iconsax-react";
+import { useNavigate } from "react-router-dom";
 
 import StyledText from "./ui/StyledText";
 import { Colors } from "../constants/Color";
 
 import { amountFormatter } from "../utils/amountFormatter";
-import { p } from "framer-motion/client";
 
 const PortfolioItem = ({ product, isLast }) => {
+  const navigate = useNavigate();
   const [fixedIncomeBalance, setFixedIncomeBalance] = useState(0);
 
   useEffect(() => {
     if (product.portfolioType === 9) {
       var balance = 0;
-      console.log(product.investments);
       product.investments?.map(
         (investment) => (balance += investment.currentValue),
       );
@@ -22,11 +22,23 @@ const PortfolioItem = ({ product, isLast }) => {
     }
   }, []);
 
+  const handleNavigation = () =>
+    navigate(`/portfolio/${product?.portfolioId}`, {
+      state: {
+        mutualfundAccountNo: product?.mutualfundAccountNo,
+        portfolioType: product?.portfolioType,
+        product: product,
+        investmentBalance:
+          product.portfolioType === 9 ? fixedIncomeBalance : product?.balance,
+      },
+    });
+
   return (
     <div
-      className={`flex items-center gap-3 rounded pb-3 pl-3 hover:bg-gray-200 md:pl-1 lg:pl-3 ${
+      className={`flex cursor-pointer items-center gap-3 rounded pb-3 pl-3 hover:bg-gray-200 md:pl-1 lg:pl-3 ${
         !isLast ? "border-b border-gray-300" : ""
       }`}
+      onClick={product?.portfolio !== "Wallet" ? handleNavigation : undefined}
     >
       <ChartSquare size={45} color={Colors.lightSecondary} variant="Bold" />
       <div className="flex flex-1 items-center justify-between gap-2 p-3">

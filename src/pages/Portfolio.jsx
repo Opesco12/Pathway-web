@@ -34,8 +34,8 @@ const Portfolio = () => {
 
       <div className="flex-1 rounded-xl bg-white p-5 md:p-3 lg:p-5">
         <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-          <div className="h-[200px] rounded-lg bg-[#ECF9FF] p-6">
-            <div className="flex h-full w-full flex-col items-center justify-center gap-5 rounded-lg bg-white p-5">
+          <div className="h-[200px] rounded-lg border border-[#73CAEE] bg-[#ECF9FF] p-6">
+            <div className="flex h-full w-full flex-col items-center justify-center gap-5 rounded-lg border border-[#73CAEE] bg-white p-5">
               <div className="flex items-center justify-center gap-1">
                 <Moneys size={18} color={Colors.primary} variant="Bold" />
                 <StyledText type="label">Total Portfolio Balance</StyledText>

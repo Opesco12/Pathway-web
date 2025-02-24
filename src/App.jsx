@@ -22,6 +22,8 @@ import OTPVerification from "./pages/auth/OTP";
 import { ProtectedRoute, UserProvider } from "./context/UserContext";
 import DataProvider from "./context/DataContext";
 import ProductDetails from "./pages/ProductDetails";
+import PortfolioDetails from "./pages/PortfolioDetails";
+import FixedIncomeWithdrawal from "./pages/FixedIncomeWithdrawal";
 
 function App() {
   const Layout = () => {
@@ -53,6 +55,15 @@ function App() {
                 <Route
                   path="invest/:portfolioId"
                   element={<ProductDetails />}
+                />
+                <Route
+                  path="/portfolio/:portfolioId"
+                  element={<PortfolioDetails />}
+                />
+
+                <Route
+                  path="/portfolio/:portfolioId/redeem"
+                  element={<FixedIncomeWithdrawal />}
                 />
               </Route>
               <Route path="*" element={<p>Page not found</p>} />
