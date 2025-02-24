@@ -96,7 +96,7 @@ const Login = () => {
                       </label>
                       <a
                         className="inline-flex items-center gap-x-1 text-sm font-medium decoration-2 hover:underline focus:underline focus:outline-none"
-                        href="#"
+                        href="/reset-password"
                         style={{ color: Colors.primary }}
                       >
                         Forgot password?

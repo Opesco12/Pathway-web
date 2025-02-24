@@ -18,10 +18,13 @@ import { keys } from "../../storage/keys";
 import "../../styles/sidebar.css";
 import { useAuth } from "../../context/UserContext";
 import { logout } from "../../api/apiClient";
+import { useNavigate } from "react-router-dom";
 
 const ResponsiveSidebar = () => {
   const [collapsed, setCollapsed] = useState(false);
   const [toggled, setToggled] = useState(false);
+
+  const navigate = useNavigate();
 
   const { setIsAuthenticated } = useAuth();
 

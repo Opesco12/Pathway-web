@@ -33,6 +33,7 @@ import PersonalDetails from "./pages/ProfileSettings/PersonalDetails";
 import BankDetails from "./pages/ProfileSettings/BankDetails";
 import ContactManager from "./pages/ProfileSettings/ContactManager";
 import ChangePassword from "./pages/auth/ChangePassword";
+import ResetPassword from "./pages/auth/RestPassword";
 
 function App() {
   const Layout = () => {
@@ -92,6 +93,7 @@ function App() {
             <Route path="*" element={<p>Page not found</p>} />
 
             <Route path="/login" element={<Login />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/register" element={<Register />} />
             <Route path="/register/activate" element={<Activation />} />
             <Route path="/login/2fa" element={<OTPVerification />} />

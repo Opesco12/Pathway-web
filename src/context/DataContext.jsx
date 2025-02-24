@@ -104,8 +104,6 @@ const DataProvider = ({ children }) => {
             accountName: walletResponse[0]?.walletAccountName,
           });
 
-          console.log(walletResponse);
-
           setProducts(productsResponse);
           updateFixedIncomePortfolio(productsResponse);
 
