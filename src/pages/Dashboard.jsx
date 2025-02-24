@@ -10,6 +10,7 @@ import {
   StatusUp,
   FavoriteChart,
   Reserve,
+  Money,
 } from "iconsax-react";
 import { useState, useEffect } from "react";
 
@@ -19,7 +20,7 @@ import { Colors } from "../constants/Color";
 import { amountFormatter } from "../utils/amountFormatter";
 import { useAuth } from "../context/UserContext";
 import { getFormattedDate } from "../utils/functions/date";
-import { getWalletBalance } from "../api/apiClient";
+import { getRecentTransactions, getWalletBalance } from "../api/apiClient";
 import { MoveDownLeft, MoveUpRight } from "lucide-react";
 import AppModal from "../component/ui/AppModal";
 import { useData } from "../context/DataContext";
@@ -28,25 +29,24 @@ const Dashboard = () => {
   const [hideBalance, setHideBalance] = useState(false);
   const [isDepositModalOpen, setIsDepositModalOpen] = useState(false);
   const [isWithdrawalModalOpen, setIsWithdrawalModalOpen] = useState(false);
-  // const [userBalance, setUserBalance] = useState({
-  //   currencyCode: "",
-  //   balance: 0,
-  // });
+  const [recentTransactions, setRecentTransactions] = useState([]);
+
   const { user } = useAuth();
   const { userBalance } = useData();
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const response = await getWalletBalance();
-  //     console.log(response);
-  //     setUserBalance({
-  //       currencyCode: response[0]?.currencyCode,
-  //       balance: response[0]?.amount,
-  //     });
-  //   };
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await getRecentTransactions();
+      console.log(response);
+      setRecentTransactions(response);
+    };
 
-  //   fetchData();
-  // }, []);
+    fetchData();
+  }, []);
+
+  function convertToDateString(date) {
+    return new Date(date).toDateString();
+  }
   return (
     <div>
       <div className="flex items-center justify-between rounded-xl bg-white p-5">
@@ -130,7 +130,7 @@ const Dashboard = () => {
         </div>
       </div>
 
-      <div className="mt-5 grid grid-cols-1 gap-5 md:grid-cols-2">
+      <div className="mt-5 grid grid-cols-1 items-start gap-5 md:grid-cols-2">
         <div className="rounded-xl bg-white p-6">
           <div className="flex items-center gap-2 border-b border-[#B0B0B0] pb-3">
             <Flash size={25} color={Colors.lightPrimary} variant="Bold" />
@@ -215,85 +215,41 @@ const Dashboard = () => {
             <StyledText color={Colors.primary}>Recent Transactions</StyledText>
           </div>
 
-          <div className="flex items-center gap-3 border-b border-[#B0B0B0] py-4">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#FF6347]">
-              <MoveUpRight color="#fff" />
-            </div>
-            <div className="flex flex-1 items-center justify-between">
-              <div>
-                <StyledText variant="semibold" color={Colors.primary}>
-                  Pathway lifestyle plan
-                </StyledText>{" "}
-                <br />
-                <StyledText type="label" color={Colors.light}>
-                  Investment - 22 Feb 2025
+          {recentTransactions?.map((transaction, index) => (
+            <div
+              key={index}
+              className="flex w-full items-center gap-3 border-b border-[#B0B0B0] py-2"
+            >
+              <Money size={25} variant="Bold" color={Colors.lightPrimary} />
+              <div className="flex flex-1 items-center justify-between">
+                <div className="w-[60%]">
+                  <StyledText
+                    variant="semibold"
+                    color={Colors.primary}
+                    className={"w-[100%] truncate"}
+                  >
+                    {transaction?.portfolio}
+                  </StyledText>{" "}
+                  <br />
+                  <StyledText
+                    type="label"
+                    color={Colors.light}
+                    // className={"truncate"}
+                  >
+                    {transaction?.description} -{" "}
+                    {convertToDateString(transaction.valueDate)}
+                  </StyledText>
+                </div>
+                <StyledText
+                  variant="semibold"
+                  color={Colors.primary}
+                  // className={"w-[25%] truncate text-center"}
+                >
+                  {amountFormatter.format(transaction?.amount)}
                 </StyledText>
               </div>
-              <StyledText variant="semibold" color={Colors.primary}>
-                {amountFormatter.format(200000)}
-              </StyledText>
             </div>
-          </div>
-
-          <div className="flex items-center gap-3 border-b border-[#B0B0B0] py-4">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#FF6347]">
-              <MoveUpRight color="#fff" />
-            </div>
-            <div className="flex flex-1 items-center justify-between">
-              <div>
-                <StyledText variant="semibold" color={Colors.primary}>
-                  Pathway lifestyle plan
-                </StyledText>{" "}
-                <br />
-                <StyledText type="label" color={Colors.light}>
-                  Investment - 22 Feb 2025
-                </StyledText>
-              </div>
-              <StyledText variant="semibold" color={Colors.primary}>
-                {amountFormatter.format(200000)}
-              </StyledText>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-3 border-b border-[#B0B0B0] py-4">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#FF6347]">
-              <MoveUpRight color="#fff" />
-            </div>
-            <div className="flex flex-1 items-center justify-between">
-              <div>
-                <StyledText variant="semibold" color={Colors.primary}>
-                  Pathway lifestyle plan
-                </StyledText>{" "}
-                <br />
-                <StyledText type="label" color={Colors.light}>
-                  Investment - 22 Feb 2025
-                </StyledText>
-              </div>
-              <StyledText variant="semibold" color={Colors.primary}>
-                {amountFormatter.format(200000)}
-              </StyledText>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-3 py-4">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#64CF69]">
-              <MoveDownLeft color="#fff" />
-            </div>
-            <div className="flex flex-1 items-center justify-between">
-              <div>
-                <StyledText variant="semibold" color={Colors.primary}>
-                  Pathway lifestyle plan
-                </StyledText>{" "}
-                <br />
-                <StyledText type="label" color={Colors.light}>
-                  Investment - 22 Feb 2025
-                </StyledText>
-              </div>
-              <StyledText variant="semibold" color={Colors.primary}>
-                {amountFormatter.format(200000)}
-              </StyledText>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
 

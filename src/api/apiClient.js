@@ -391,6 +391,18 @@ export const getTransactions = async (startdate, enddate) => {
   } catch (error) {}
 };
 
+export const getRecentTransactions = async () => {
+  try {
+    const data = await apiCall({
+      endpoint: `${endpoints.getRecentTransactions}/5`,
+      method: "GET",
+    });
+    return data;
+  } catch (error) {
+    toast.error("An error occured");
+  }
+};
+
 export const mutualFundSubscription = async ({
   accountNumber,
   portfolioId,

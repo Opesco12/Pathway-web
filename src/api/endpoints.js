@@ -17,6 +17,7 @@ export const endpoints = {
   getVirtualAccounts: "/getvirtualaccounts",
   getPortfolio: "/getclientportfolios",
   getTransactions: "/gettransactions",
+  getRecentTransactions: "/getrecenttransactions",
   getMutualFundOnlineBalances: "/getclientmutualfundonlinebalances",
   getMutualFundOnlineBalance: "/getclientmutualfundonlinebalance",
   getMutualFundStatement: "/getmutualfundstatement",
