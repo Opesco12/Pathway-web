@@ -11,6 +11,9 @@ import {
   FavoriteChart,
   Reserve,
   Money,
+  Bank,
+  Copy,
+  CopySuccess,
 } from "iconsax-react";
 import { useState, useEffect } from "react";
 
@@ -32,9 +35,10 @@ const Dashboard = () => {
   const [isDepositModalOpen, setIsDepositModalOpen] = useState(false);
   const [isWithdrawalModalOpen, setIsWithdrawalModalOpen] = useState(false);
   const [recentTransactions, setRecentTransactions] = useState([]);
+  const [copied, setCopied] = useState(false);
 
   const { user } = useAuth();
-  const { userBalance } = useData();
+  const { userBalance, walletDetails } = useData();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -60,6 +64,16 @@ const Dashboard = () => {
       window.Tawk_API.maximize();
     } else {
       window.Tawk_API.hideWidget();
+    }
+  };
+
+  const handleCopy = async (text) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 10000);
+    } catch (err) {
+      console.error("Failed to copy text: ", err);
     }
   };
   return (
@@ -189,7 +203,7 @@ const Dashboard = () => {
           </ContentBox>
 
           <div className="grid grid-cols-2 gap-2">
-            <ContentBox>
+            <ContentBox onClick={() => navigate("/transactions")}>
               <ReceiptText
                 size={25}
                 color={Colors.lightPrimary}
@@ -275,7 +289,36 @@ const Dashboard = () => {
         title={"Deposit"}
         isOpen={isDepositModalOpen}
         onClose={() => setIsDepositModalOpen(false)}
-      />
+      >
+        <div className="">
+          <Bank
+            size={50}
+            color={Colors.primary}
+            className="mx-auto mt-[20px] mb-[25px]"
+          />
+
+          <p className="font-md my-4 text-center text-gray-600">
+            Send money to the bank account details below to fund your wallet.
+          </p>
+
+          <div className="hover:bg-border flex items-center justify-between rounded-lg p-2">
+            <div>
+              <h3 className="font-semibold">{walletDetails?.accountName}</h3>
+              {/* <p>{account?.virtualAccountNo}</p> */}
+              <h4 className="font-medium">{walletDetails?.accountNo}</h4>
+            </div>
+            {copied ? (
+              <CopySuccess size={25} color={Colors.primary} />
+            ) : (
+              <Copy
+                size={25}
+                color={Colors.primary}
+                onClick={() => handleCopy(walletDetails?.accountNo)}
+              />
+            )}
+          </div>
+        </div>
+      </AppModal>
 
       <AppModal
         title={"Withdrawal"}

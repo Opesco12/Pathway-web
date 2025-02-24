@@ -27,6 +27,8 @@ import FixedIncomeWithdrawal from "./pages/FixedIncomeWithdrawal";
 import Transactions from "./pages/Transactions";
 import TransactionDetails from "./pages/TransasctionDetails";
 import Profile from "./pages/Profile";
+import Register from "./pages/auth/Register";
+import Activation from "./pages/auth/Activation";
 
 function App() {
   const Layout = () => {
@@ -78,7 +80,8 @@ function App() {
               <Route path="*" element={<p>Page not found</p>} />
 
               <Route path="/login" element={<Login />} />
-
+              <Route path="/register" element={<Register />} />
+              <Route path="/register/activate" element={<Activation />} />
               <Route path="/login/2fa" element={<OTPVerification />} />
             </Routes>
           </DataProvider>

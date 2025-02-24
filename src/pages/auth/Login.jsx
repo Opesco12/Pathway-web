@@ -47,7 +47,7 @@ const Login = () => {
                 Don't have an account yet?{" "}
                 <a
                   className="font-medium text-blue-600 decoration-2 hover:underline focus:underline focus:outline-none"
-                  href="../examples/html/signup.html"
+                  href="/register"
                   style={{ color: Colors.primary }}
                 >
                   Sign up here
