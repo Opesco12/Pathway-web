@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Formik, Field } from "formik";
-import * as Yup from "yup";
 import { Eye, EyeSlash } from "iconsax-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
