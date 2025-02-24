@@ -12,12 +12,18 @@ import {
   User,
 } from "iconsax-react";
 import { Colors } from "../../constants/Color";
+import { userStorage } from "../../storage/userStorage";
+import { keys } from "../../storage/keys";
 
 import "../../styles/sidebar.css";
+import { useAuth } from "../../context/UserContext";
+import { logout } from "../../api/apiClient";
 
 const ResponsiveSidebar = () => {
   const [collapsed, setCollapsed] = useState(false);
   const [toggled, setToggled] = useState(false);
+
+  const { setIsAuthenticated } = useAuth();
 
   const isLargeScreen = useMediaQuery({ minWidth: 992 });
   const isMediumScreen = useMediaQuery({ minWidth: 768, maxWidth: 991 });
@@ -31,6 +37,15 @@ const ResponsiveSidebar = () => {
 
   const handleToggleSidebar = () => {
     setToggled(!toggled);
+  };
+
+  const logoutUser = async () => {
+    const userData = userStorage.getItem(keys.user);
+
+    await logout(userData?.token);
+    userStorage.removeItem(keys.user);
+    setIsAuthenticated(false);
+    navigate("/login");
   };
 
   return (
@@ -137,6 +152,7 @@ const ResponsiveSidebar = () => {
             <MenuItem
               icon={<LogoutCurve variant="Bold" color="white" size={24} />}
               className="mt-auto mb-6"
+              onClick={logoutUser}
             >
               <span className="text-white">Logout</span>
             </MenuItem>

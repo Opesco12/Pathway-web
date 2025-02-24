@@ -29,6 +29,10 @@ import TransactionDetails from "./pages/TransasctionDetails";
 import Profile from "./pages/Profile";
 import Register from "./pages/auth/Register";
 import Activation from "./pages/auth/Activation";
+import PersonalDetails from "./pages/ProfileSettings/PersonalDetails";
+import BankDetails from "./pages/ProfileSettings/BankDetails";
+import ContactManager from "./pages/ProfileSettings/ContactManager";
+import ChangePassword from "./pages/auth/ChangePassword";
 
 function App() {
   const Layout = () => {
@@ -74,6 +78,16 @@ function App() {
                 element={<TransactionDetails />}
               />
               <Route path="profile" element={<Profile />} />
+              <Route
+                path="/profile/personal-details"
+                element={<PersonalDetails />}
+              />
+              <Route path="/profile/bank-details" element={<BankDetails />} />
+              <Route
+                path="/profile/contact-manager"
+                element={<ContactManager />}
+              />
+              <Route path="/change-password" element={<ChangePassword />} />
             </Route>
             <Route path="*" element={<p>Page not found</p>} />
 

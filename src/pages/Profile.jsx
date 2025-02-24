@@ -23,10 +23,14 @@ const settingsOptions = [
     path: "/profile/personal-details",
   },
   { icon: Book, label: "Bank Details", path: "/profile/bank-details" },
-  { icon: ClipboardTick, label: "KYC", path: "/kyc/1" },
-  { icon: UserOctagon, label: "Contact Account Manager", path: "#" },
+  { icon: ClipboardTick, label: "KYC", path: "#" },
+  {
+    icon: UserOctagon,
+    label: "Contact Account Manager",
+    path: "/profile/contact-manager",
+  },
   { icon: Lock1, label: "Change Password", path: "/change-password" },
-  { icon: Global, label: "Visit Our Website", path: "#" },
+  { icon: Global, label: "Visit Our Website", path: "https://pathway.ng/" },
   { icon: DocumentText, label: "Terms and Conditions", path: "#" },
   { icon: Security, label: "Privacy Policy", path: "#" },
   { icon: Headphone, label: "Help & Support", path: "#" },
@@ -37,7 +41,17 @@ const Profile = () => {
   const { user } = useAuth();
   const { walletDetails } = useData();
 
-  console.log(user);
+  const toggleChat = () => {
+    console.log("clicked!");
+    if (!window.Tawk_API) return;
+
+    if (window.Tawk_API.isChatHidden()) {
+      window.Tawk_API.showWidget();
+      window.Tawk_API.maximize();
+    } else {
+      window.Tawk_API.maximize();
+    }
+  };
 
   return (
     <div className="flex h-full flex-col">
@@ -52,11 +66,6 @@ const Profile = () => {
 
       <div className="flex-1 rounded-xl bg-white bg-[url('https://res.cloudinary.com/dtu6cxvk6/image/upload/layer.png')] bg-cover bg-center p-5 md:p-3 lg:p-5">
         <div className="flex items-center gap-5 py-3">
-          {/* <img
-            alt=""
-            src="/images/utlam-default.webp"
-            className="h-[50px] w-[50px] rounded-full md:h-[100px] md:w-[100px]"
-          /> */}
           <div>
             <StyledText type="heading" variant="medium" color={Colors.white}>
               {user?.fullName}
@@ -98,20 +107,26 @@ const Profile = () => {
           </div>
 
           {settingsOptions.map(({ icon: Icon, label, path }, index) => (
-            <div key={index}>
-              <div
-                onClick={() => path !== "#" && navigate(path)}
-                className="flex cursor-pointer flex-row items-center justify-between bg-white py-4 hover:bg-gray-200"
+            <div
+              key={index}
+              onClick={() => {
+                if (label === "Help & Support") {
+                  toggleChat();
+                } else if (path.startsWith("http")) {
+                  window.open(path, "_blank");
+                } else if (path !== "#") {
+                  navigate(path);
+                }
+              }}
+              className="flex cursor-pointer flex-row items-center justify-between bg-white py-4 hover:bg-gray-200"
+            >
+              <StyledText
+                style={{ display: "flex", alignItems: "center", gap: 12 }}
               >
-                <StyledText
-                  style={{ display: "flex", alignItems: "center", gap: 12 }}
-                >
-                  <Icon size={20} color={Colors.primary} />
-                  {label}
-                </StyledText>
-                <ArrowRight2 size={17} color={Colors.primary} variant="Bold" />
-              </div>
-              <hr className="border-t border-gray-200" />
+                <Icon size={20} color={Colors.primary} />
+                {label}
+              </StyledText>
+              <ArrowRight2 size={17} color={Colors.primary} variant="Bold" />
             </div>
           ))}
         </div>

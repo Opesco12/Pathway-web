@@ -56,14 +56,12 @@ const Dashboard = () => {
   }
 
   const toggleChat = () => {
-    console.log("Clicked");
     if (!window.Tawk_API) return;
-
     if (window.Tawk_API.isChatHidden()) {
       window.Tawk_API.showWidget();
       window.Tawk_API.maximize();
     } else {
-      window.Tawk_API.hideWidget();
+      window.Tawk_API.maximize();
     }
   };
 

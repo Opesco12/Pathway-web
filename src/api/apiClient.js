@@ -10,7 +10,6 @@ const BASE_URL = "https://pathway-proxy.vercel.app/api/v1";
 
 const getAuthToken = async () => {
   const data = userStorage.getItem(keys.user);
-  console.log("is there token??? ", data);
   return data?.token;
 };
 
@@ -523,6 +522,62 @@ export const fixedIncomeRedemptionOrder = async (referenceNo, amount) => {
     return data;
   } catch (error) {
     console.log(error);
+    toast.error("An error occured while processing fund redemption");
+  }
+};
+
+export const getBanks = async () => {
+  try {
+    const data = await apiCall({
+      endpoint: endpoints.getBanks,
+      method: "GET",
+    });
+    return data;
+  } catch (error) {
+    console.error(error);
+    toast.error("An error occured");
+  }
+};
+
+export const createClientBank = async (requestData) => {
+  try {
+    const data = await apiCall({
+      endpoint: endpoints.createBank,
+      method: "POST",
+      data: requestData,
+    });
+    return data;
+  } catch (error) {
+    console.error(error);
+
+    toast.error("Invalid details or error while processing request");
+  }
+};
+
+export const getclientbankaccounts = async () => {
+  try {
+    const data = await apiCall({
+      endpoint: endpoints.getClientBanks,
+      method: "GET",
+    });
+    return data;
+  } catch (error) {
+    console.error(error);
+
+    toast.error("Unable to fetch client bank accounts");
+  }
+};
+
+export const debitWallet = async (requestData) => {
+  try {
+    const data = await apiCall({
+      endpoint: endpoints.withdraw,
+      method: "POST",
+      data: requestData,
+    });
+    return data;
+  } catch (error) {
+    console.error(error);
     toast.error("An error occured while processing fund withdrawal");
   }
 };
