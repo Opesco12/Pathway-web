@@ -37,7 +37,7 @@ const ResponsiveSidebar = () => {
     <>
       {isSmallScreen && (
         <div
-          className="fixed top-0 left-0 right-0 h-16 z-50 flex justify-between items-center px-4"
+          className="fixed top-0 right-0 left-0 z-50 flex h-16 items-center justify-between px-4"
           style={{ backgroundColor: Colors.primary }}
         >
           <div className="flex items-center gap-2">
@@ -50,12 +50,9 @@ const ResponsiveSidebar = () => {
 
           <button
             onClick={handleToggleSidebar}
-            className="p-2 hover:bg-blue-700 rounded-lg"
+            className="rounded-lg p-2 hover:bg-blue-700"
           >
-            <HambergerMenu
-              size={24}
-              color="white"
-            />
+            <HambergerMenu size={24} color="white" />
           </button>
         </div>
       )}
@@ -70,7 +67,7 @@ const ResponsiveSidebar = () => {
         width="240px"
       >
         <Menu
-          className="h-full flex flex-col pt-6"
+          className="flex h-full flex-col pt-6"
           menuItemStyles={{
             button: {
               color: "white",
@@ -102,77 +99,43 @@ const ResponsiveSidebar = () => {
           )}
 
           <MenuItem
-            icon={
-              <Home3
-                variant="Bold"
-                color="white"
-                size={24}
-              />
-            }
+            icon={<Home3 variant="Bold" color="white" size={24} />}
             component={<a href="/" />}
           >
             <span className="text-white">Dashboard</span>
           </MenuItem>
 
           <MenuItem
-            icon={
-              <ChartSquare
-                variant="Bold"
-                color="white"
-                size={24}
-              />
-            }
+            icon={<ChartSquare variant="Bold" color="white" size={24} />}
             component={<a href="/invest" />}
           >
             <span className="text-white">Invest</span>
           </MenuItem>
 
           <MenuItem
-            icon={
-              <ReceiptText
-                variant="Bold"
-                color="white"
-                size={24}
-              />
-            }
+            icon={<ReceiptText variant="Bold" color="white" size={24} />}
+            component={<a href="/transactions" />}
           >
             <span className="text-white">Transactions</span>
           </MenuItem>
 
           <MenuItem
-            icon={
-              <Briefcase
-                variant="Bold"
-                color="white"
-                size={24}
-              />
-            }
+            icon={<Briefcase variant="Bold" color="white" size={24} />}
             component={<a href="/portfolio" />}
           >
             <span className="text-white">Portfolio</span>
           </MenuItem>
 
           <MenuItem
-            icon={
-              <User
-                variant="Bold"
-                color="white"
-                size={24}
-              />
-            }
+            icon={<User variant="Bold" color="white" size={24} />}
+            component={<a href="/profile" />}
           >
             <span className="text-white">Profile</span>
           </MenuItem>
 
           <div className="sidebar-footer">
             <MenuItem
-              icon={
-                <LogoutCurve
-                  variant="Bold"
-                  color="white"
-                  size={24}
-                />
-              }
+              icon={<LogoutCurve variant="Bold" color="white" size={24} />}
               className="mt-auto mb-6"
             >
               <span className="text-white">Logout</span>

@@ -22,6 +22,7 @@ const DataProvider = ({ children }) => {
     currencyCode: "",
     balance: 0,
   });
+  const [walletDetails, setWalletDetails] = useState({});
   const [products, setProducts] = useState([]);
   const [mutualFundBalances, setMutualFundBalances] = useState([]);
   const [fixedIncomePortfolio, setFixedIncomePortfolio] = useState([]);
@@ -98,6 +99,13 @@ const DataProvider = ({ children }) => {
             balance: walletResponse[0]?.amount,
           });
 
+          setWalletDetails({
+            accountNo: walletResponse[0]?.walletAccountNo,
+            accountName: walletResponse[0]?.walletAccountName,
+          });
+
+          console.log(walletResponse);
+
           setProducts(productsResponse);
           updateFixedIncomePortfolio(productsResponse);
 
@@ -138,6 +146,7 @@ const DataProvider = ({ children }) => {
         mutualFundBalances,
         fixedIncomePortfolio,
         refreshUserBalance,
+        walletDetails,
       }}
     >
       {children}

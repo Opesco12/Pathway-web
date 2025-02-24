@@ -24,6 +24,9 @@ import DataProvider from "./context/DataContext";
 import ProductDetails from "./pages/ProductDetails";
 import PortfolioDetails from "./pages/PortfolioDetails";
 import FixedIncomeWithdrawal from "./pages/FixedIncomeWithdrawal";
+import Transactions from "./pages/Transactions";
+import TransactionDetails from "./pages/TransasctionDetails";
+import Profile from "./pages/Profile";
 
 function App() {
   const Layout = () => {
@@ -65,6 +68,12 @@ function App() {
                   path="/portfolio/:portfolioId/redeem"
                   element={<FixedIncomeWithdrawal />}
                 />
+                <Route path="/transactions" element={<Transactions />} />
+                <Route
+                  path="/transaction/details"
+                  element={<TransactionDetails />}
+                />
+                <Route path="profile" element={<Profile />} />
               </Route>
               <Route path="*" element={<p>Page not found</p>} />
 

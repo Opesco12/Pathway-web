@@ -24,6 +24,8 @@ import { getRecentTransactions, getWalletBalance } from "../api/apiClient";
 import { MoveDownLeft, MoveUpRight } from "lucide-react";
 import AppModal from "../component/ui/AppModal";
 import { useData } from "../context/DataContext";
+import { a } from "framer-motion/client";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const [hideBalance, setHideBalance] = useState(false);
@@ -33,6 +35,7 @@ const Dashboard = () => {
 
   const { user } = useAuth();
   const { userBalance } = useData();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -47,6 +50,18 @@ const Dashboard = () => {
   function convertToDateString(date) {
     return new Date(date).toDateString();
   }
+
+  const toggleChat = () => {
+    console.log("Clicked");
+    if (!window.Tawk_API) return;
+
+    if (window.Tawk_API.isChatHidden()) {
+      window.Tawk_API.showWidget();
+      window.Tawk_API.maximize();
+    } else {
+      window.Tawk_API.hideWidget();
+    }
+  };
   return (
     <div>
       <div className="flex items-center justify-between rounded-xl bg-white p-5">
@@ -137,7 +152,7 @@ const Dashboard = () => {
             <StyledText color={Colors.primary}>Quick Access</StyledText>
           </div>
 
-          <ContentBox>
+          <ContentBox onClick={() => navigate("/invest")}>
             <div className="flex items-center justify-between">
               <div>
                 <StyledText color={Colors.primary} variant="semibold">
@@ -153,7 +168,7 @@ const Dashboard = () => {
             </div>
           </ContentBox>
 
-          <ContentBox>
+          <ContentBox onClick={() => navigate("/portfolio")}>
             <div className="flex items-center justify-between">
               <div>
                 <StyledText color={Colors.primary} variant="semibold">
@@ -190,7 +205,7 @@ const Dashboard = () => {
                 Monitor your financial activity
               </StyledText>
             </ContentBox>
-            <ContentBox>
+            <ContentBox onClick={toggleChat}>
               <Reserve
                 size={25}
                 color={Colors.lightPrimary}
@@ -209,7 +224,7 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <div className="rounded-xl bg-white p-6">
+        <div className="min-h-[200px] rounded-xl bg-white p-6">
           <div className="flex items-center gap-2 border-b border-[#B0B0B0] pb-3">
             <ReceiptText size={25} color={Colors.lightPrimary} variant="Bold" />
             <StyledText color={Colors.primary}>Recent Transactions</StyledText>
@@ -217,6 +232,9 @@ const Dashboard = () => {
 
           {recentTransactions?.map((transaction, index) => (
             <div
+              onClick={() =>
+                navigate("/transaction/details", { state: transaction })
+              }
               key={index}
               className="flex w-full items-center gap-3 border-b border-[#B0B0B0] py-2"
             >
@@ -270,6 +288,10 @@ const Dashboard = () => {
 
 export default Dashboard;
 
-const ContentBox = ({ children }) => {
-  return <div className="my-3 rounded-xl bg-[#ECF9FF] p-4">{children}</div>;
+const ContentBox = ({ children, onClick }) => {
+  return (
+    <div onClick={onClick} className="my-3 rounded-xl bg-[#ECF9FF] p-4">
+      {children}
+    </div>
+  );
 };
