@@ -2,7 +2,7 @@ import { useLocation, Navigate, useNavigate } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
 import { toast } from "react-toastify";
 
-import { resnedActivationCode } from "../../api/apiClient";
+import { resnedActivationCode, activateAccount } from "../../api/apiClient";
 import { Colors } from "../../constants/Color";
 import { useAuth } from "../../context/UserContext";
 import { userStorage } from "../../storage/userStorage";
@@ -47,14 +47,16 @@ const Activation = () => {
   };
 
   const handleSubmit = async (enteredOtp) => {
+    console.log(email, enteredOtp);
     try {
       const info = {
         username: email,
         securityCode: `${enteredOtp}`,
       };
+
+      console.log(info);
       const response = await activateAccount(info);
       if (response) {
-        console.log(response);
         navigate("/login");
         toast.success("Your account has been successfully activated");
       }

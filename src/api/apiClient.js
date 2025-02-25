@@ -197,7 +197,6 @@ export const activateAccount = async (info) => {
     });
     return data;
   } catch (error) {
-    console.log(error);
     if (error.status === 400) {
       toast.error(
         "Invalid security passcode or security login passcode has expired",
