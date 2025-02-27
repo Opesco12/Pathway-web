@@ -18,13 +18,15 @@ import { keys } from "../../storage/keys";
 import "../../styles/sidebar.css";
 import { useAuth } from "../../context/UserContext";
 import { logout } from "../../api/apiClient";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const ResponsiveSidebar = () => {
   const [collapsed, setCollapsed] = useState(false);
   const [toggled, setToggled] = useState(false);
 
   const navigate = useNavigate();
+  const location = useLocation();
+  const currentPath = location.pathname;
 
   const { setIsAuthenticated } = useAuth();
 
@@ -49,6 +51,16 @@ const ResponsiveSidebar = () => {
     userStorage.removeItem(keys.user);
     setIsAuthenticated(false);
     navigate("/login");
+  };
+
+  // Define a helper function to check if a route is active
+  const isActive = (path) => {
+    return currentPath === path;
+  };
+
+  // Style for active menu item
+  const activeStyle = {
+    backgroundColor: Colors.lightPrimary,
   };
 
   return (
@@ -117,38 +129,61 @@ const ResponsiveSidebar = () => {
           )}
 
           <MenuItem
-            icon={<Home3 variant="Bold" color="white" size={24} />}
+            icon={<Home3 color="white" size={24} variant="Bold" />}
             component={<a href="/" />}
+            style={isActive("/") ? activeStyle : {}}
           >
-            <span className="text-white">Dashboard</span>
+            <span className={`text-white ${isActive("/") ? "font-bold" : ""}`}>
+              Dashboard
+            </span>
           </MenuItem>
 
           <MenuItem
             icon={<ChartSquare variant="Bold" color="white" size={24} />}
             component={<a href="/invest" />}
+            style={isActive("/invest") ? activeStyle : {}}
           >
-            <span className="text-white">Invest</span>
+            <span
+              className={`text-white ${isActive("/invest") ? "font-bold" : ""}`}
+            >
+              Invest
+            </span>
           </MenuItem>
 
           <MenuItem
             icon={<ReceiptText variant="Bold" color="white" size={24} />}
             component={<a href="/transactions" />}
+            style={isActive("/transactions") ? activeStyle : {}}
           >
-            <span className="text-white">Transactions</span>
+            <span
+              className={`text-white ${isActive("/transactions") ? "font-bold" : ""}`}
+            >
+              Transactions
+            </span>
           </MenuItem>
 
           <MenuItem
             icon={<Briefcase variant="Bold" color="white" size={24} />}
             component={<a href="/portfolio" />}
+            style={isActive("/portfolio") ? activeStyle : {}}
           >
-            <span className="text-white">Portfolio</span>
+            <span
+              className={`text-white ${isActive("/portfolio") ? "font-bold" : ""}`}
+            >
+              Portfolio
+            </span>
           </MenuItem>
 
           <MenuItem
             icon={<User variant="Bold" color="white" size={24} />}
             component={<a href="/profile" />}
+            style={isActive("/profile") ? activeStyle : {}}
           >
-            <span className="text-white">Profile</span>
+            <span
+              className={`text-white ${isActive("/profile") ? "font-bold" : ""}`}
+            >
+              Profile
+            </span>
           </MenuItem>
 
           <div className="sidebar-footer">

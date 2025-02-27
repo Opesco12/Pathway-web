@@ -24,10 +24,8 @@ import { amountFormatter } from "../utils/amountFormatter";
 import { useAuth } from "../context/UserContext";
 import { getFormattedDate } from "../utils/functions/date";
 import { getRecentTransactions, getWalletBalance } from "../api/apiClient";
-import { MoveDownLeft, MoveUpRight } from "lucide-react";
 import AppModal from "../component/ui/AppModal";
 import { useData } from "../context/DataContext";
-import { a } from "framer-motion/client";
 import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
@@ -242,44 +240,55 @@ const Dashboard = () => {
             <StyledText color={Colors.primary}>Recent Transactions</StyledText>
           </div>
 
-          {recentTransactions?.map((transaction, index) => (
-            <div
-              onClick={() =>
-                navigate("/transaction/details", { state: transaction })
-              }
-              key={index}
-              className="flex w-full items-center gap-3 border-b border-[#B0B0B0] py-2"
-            >
-              <Money size={25} variant="Bold" color={Colors.lightPrimary} />
-              <div className="flex flex-1 items-center justify-between">
-                <div className="w-[60%]">
+          {recentTransactions?.length > 0 ? (
+            recentTransactions?.map((transaction, index) => (
+              <div
+                onClick={() =>
+                  navigate("/transaction/details", { state: transaction })
+                }
+                key={index}
+                className="flex w-full items-center gap-3 border-b border-[#B0B0B0] py-2"
+              >
+                <Money size={25} variant="Bold" color={Colors.lightPrimary} />
+                <div className="flex flex-1 items-center justify-between">
+                  <div className="w-[60%]">
+                    <StyledText
+                      variant="semibold"
+                      color={Colors.primary}
+                      className={"w-[100%] truncate"}
+                    >
+                      {transaction?.portfolio}
+                    </StyledText>{" "}
+                    <br />
+                    <StyledText
+                      type="label"
+                      color={Colors.light}
+                      // className={"truncate"}
+                    >
+                      {transaction?.description} -{" "}
+                      {convertToDateString(transaction.valueDate)}
+                    </StyledText>
+                  </div>
                   <StyledText
                     variant="semibold"
                     color={Colors.primary}
-                    className={"w-[100%] truncate"}
+                    // className={"w-[25%] truncate text-center"}
                   >
-                    {transaction?.portfolio}
-                  </StyledText>{" "}
-                  <br />
-                  <StyledText
-                    type="label"
-                    color={Colors.light}
-                    // className={"truncate"}
-                  >
-                    {transaction?.description} -{" "}
-                    {convertToDateString(transaction.valueDate)}
+                    {amountFormatter.format(transaction?.amount)}
                   </StyledText>
                 </div>
-                <StyledText
-                  variant="semibold"
-                  color={Colors.primary}
-                  // className={"w-[25%] truncate text-center"}
-                >
-                  {amountFormatter.format(transaction?.amount)}
-                </StyledText>
               </div>
+            ))
+          ) : (
+            <div className="mt-5">
+              <StyledText
+                color={Colors.light}
+                style={{ textAlign: "center", width: "100%" }}
+              >
+                Your recent transactions will appear here
+              </StyledText>
             </div>
-          ))}
+          )}
         </div>
       </div>
 

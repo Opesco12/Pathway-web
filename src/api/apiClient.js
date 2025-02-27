@@ -10,6 +10,7 @@ const BASE_URL = "https://pathway-proxy.vercel.app/api/v1";
 
 const getAuthToken = async () => {
   const data = userStorage.getItem(keys.user);
+  console.log(data?.token);
   return data?.token;
 };
 

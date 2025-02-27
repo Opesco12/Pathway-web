@@ -43,7 +43,7 @@ const settingsOptions = [
   { icon: Global, label: "Visit Our Website", path: "https://pathway.ng/" },
   { icon: DocumentText, label: "Terms and Conditions", path: "#" },
   { icon: Security, label: "Privacy Policy", path: "#" },
-  { icon: Headphone, label: "Help & Support", path: "#" },
+  { icon: Headphone, label: "Help & Support", path: "/profile/support" },
 ];
 
 const Profile = () => {
@@ -53,7 +53,7 @@ const Profile = () => {
 
   const [clientPhoto, setClientPhoto] = useState(null);
   const [copied, setCopied] = useState(false);
-  const [isUploadModalOpen, setIsUploadModalOpen] = useState(true);
+  const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
 
@@ -213,9 +213,7 @@ const Profile = () => {
             <div
               key={index}
               onClick={() => {
-                if (label === "Help & Support") {
-                  toggleChat();
-                } else if (path.startsWith("http")) {
+                if (path.startsWith("http")) {
                   window.open(path, "_blank");
                 } else if (path !== "#") {
                   navigate(path);

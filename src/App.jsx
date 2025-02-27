@@ -34,6 +34,7 @@ import BankDetails from "./pages/ProfileSettings/BankDetails";
 import ContactManager from "./pages/ProfileSettings/ContactManager";
 import ChangePassword from "./pages/auth/ChangePassword";
 import ResetPassword from "./pages/auth/RestPassword";
+import Support from "./pages/Support";
 
 function App() {
   const Layout = () => {
@@ -88,6 +89,7 @@ function App() {
                 path="/profile/contact-manager"
                 element={<ContactManager />}
               />
+              <Route path="/profile/support" element={<Support />} />
               <Route path="/change-password" element={<ChangePassword />} />
             </Route>
             <Route path="*" element={<p>Page not found</p>} />
