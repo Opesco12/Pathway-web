@@ -34,7 +34,6 @@ import BankDetails from "./pages/ProfileSettings/BankDetails";
 import ContactManager from "./pages/ProfileSettings/ContactManager";
 import ChangePassword from "./pages/auth/ChangePassword";
 import ResetPassword from "./pages/auth/RestPassword";
-import FileUploadComponent from "./pages/FileUpload";
 
 function App() {
   const Layout = () => {
@@ -85,7 +84,6 @@ function App() {
                 element={<PersonalDetails />}
               />
               <Route path="/profile/bank-details" element={<BankDetails />} />
-              <Route path="/profile/upload" element={<FileUploadComponent />} />
               <Route
                 path="/profile/contact-manager"
                 element={<ContactManager />}
