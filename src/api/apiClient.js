@@ -580,3 +580,62 @@ export const debitWallet = async (requestData) => {
     toast.error("An error occured while processing fund withdrawal");
   }
 };
+
+export const fetchClientPhoto = async () => {
+  try {
+    const data = await apiCall({
+      endpoint: endpoints.getClientPhoto,
+      method: "GET",
+    });
+    return data;
+  } catch (error) {
+    console.error(error);
+    toast.error("An error occured while fetching photo");
+  }
+};
+
+const convertToBase64 = (file) => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      // Remove the prefix (e.g., "data:image/jpeg;base64,")
+      const base64String = reader.result.split(",")[1];
+      resolve(base64String);
+    };
+    reader.onerror = (error) => reject(error);
+  });
+};
+
+export const uploadImage = async (file) => {
+  console.log(file);
+  try {
+    // Convert file to base64
+    const base64String = await convertToBase64(file);
+
+    // Prepare request body
+    const requestBody = {
+      base64: base64String,
+      filename: file?.name,
+    };
+
+    const token = await getAuthToken();
+
+    const response = await fetch(
+      "https://102.207.208.18:6545/api/v1/uploadclientphoto",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json-patch+json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(requestBody),
+      },
+    );
+
+    return response;
+  } catch (error) {
+    console.error("Upload error:", error);
+    toast.error("Upload failed");
+  }
+};
