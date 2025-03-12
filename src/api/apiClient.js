@@ -6,7 +6,7 @@ import { endpoints } from "./endpoints";
 import { userStorage } from "../storage/userStorage";
 import { keys } from "../storage/keys";
 
-const BASE_URL = "https://pathway-proxy.vercel.app/api/v1";
+const BASE_URL = "https://pathway-proxy-server.vercel.app/api/v1";
 
 const getAuthToken = async () => {
   const data = userStorage.getItem(keys.user);
